@@ -1,0 +1,78 @@
+.all-bookings-title {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 900;
+  color: #FFD700; /* GOLDEN - dark pe sab se zyada chamkega */
+  text-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+  margin: 25px 0 15px 0;
+}
+
+
+.booking-list {
+  max-width: 550px;
+  margin: 20px auto 40px auto;
+  padding: 0 15px;
+}
+
+.booking-list h2 {
+  text-align: center;
+  color: white;
+  font-size: 26px;
+  text-shadow: 0 0 15px rgba(255, 0, 128, 0.6);
+}
+
+.empty {
+  text-align: center;
+  color: #ddd;
+  background: rgba(255,255,255,0.08);
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px dashed rgba(255,255,255,0.3);
+}
+
+.booking-card {
+  background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05));
+  backdrop-filter: blur(10px);
+  padding: 18px;
+  margin: 14px 0;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.15);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  animation: cardIn 0.5s ease both;
+  transition: 0.3s;
+  border-left: 5px solid #ff0080;
+  color: white;
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.booking-card:hover {
+  transform: translateY(-5px);
+  border-left-color: #00c8ff;
+  box-shadow: 0 0 25px rgba(0, 200, 255, 0.35);
+}
+
+.booking-card p {
+  margin: 6px 0;
+  color: #e0e0e0;
+  font-size: 14.5px;
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 17px;
+}
+
+.badge {
+  background: linear-gradient(90deg, #00ff88, #00c8ff);
+  color: #ffd700;
+  padding: 5px 13px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 900;
+}
