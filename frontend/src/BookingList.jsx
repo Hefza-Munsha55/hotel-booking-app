@@ -3,12 +3,11 @@ import "./BookingList.css";
 
 export default function BookingList() {
   const [bookings, setBookings] = useState([]);
-  // NAYA: Kis booking ko edit kar rahe hain?
   const [editingId, setEditingId] = useState(null);
   const [editForm, setEditForm] = useState({});
 
   const loadBookings = () => {
-    fetch("http://localhost:5000/api/bookings")
+    fetch(`${import.meta.env.VITE_API_URL}/api/bookings`)
       .then((res) => res.json())
       .then((data) => setBookings(data));
   };
@@ -17,10 +16,9 @@ export default function BookingList() {
     loadBookings();
   }, []);
 
-  // NAYA: DELETE BUTTON
   const handleDelete = async (id, name) => {
     if (!window.confirm(`${name} you want to delete your booking?`)) return;
-    const res = await fetch(`http://localhost:5000/api/bookings/${id}`, { method: "DELETE" });
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/bookings/${id}`, { method: "DELETE" });
     if (res.ok) {
       alert("Booking deleted! ✅");
       loadBookings();
@@ -29,7 +27,6 @@ export default function BookingList() {
     }
   };
 
-  // NAYA: EDIT START - form me purana data bhar do
   const startEdit = (b) => {
     setEditingId(b._id);
     setEditForm({
@@ -47,7 +44,6 @@ export default function BookingList() {
 
   const handleEditChange = (e) => {
     const { name, value } = e.target;
-    // Phone me sirf digit
     if (name === "phone") {
       setEditForm({ ...editForm, phone: value.replace(/\D/g, "").slice(0, 11) });
       return;
@@ -55,13 +51,12 @@ export default function BookingList() {
     setEditForm({ ...editForm, [name]: value });
   };
 
-  // NAYA: EDIT SAVE
   const saveEdit = async (id) => {
     if (!/^03\d{9}$/.test(editForm.phone)) {
       alert("Enter valid phone number - 11 digits, e.g. 03001234567");
       return;
     }
-    const res = await fetch(`http://localhost:5000/api/bookings/${id}`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/bookings/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(editForm),
@@ -82,8 +77,6 @@ export default function BookingList() {
       {bookings.length === 0 ? <p>No Booking Yet.</p> : null}
       {bookings.map((b) => (
         <div key={b._id} style={{ border: "1px solid #ddd", padding: "10px", margin: "10px 0", borderRadius: "8px" }}>
-
-          {/* Agar Edit pe click kiya hai to ye form dikhao, warna normal booking dikhao */}
           {editingId === b._id ? (
             <div>
               <input name="fullName" value={editForm.fullName} onChange={handleEditChange} placeholder="Full Name" style={{ width: "100%", marginBottom: "5px", padding: "6px" }} />
@@ -104,9 +97,8 @@ export default function BookingList() {
             <div>
               <b>{b.fullName}</b> - {b.hotel} - {b.roomType} Room - Room No. {b.roomNo} <br />
               {b.email} | {b.phone} <br />
-              {new Date(b.checkIn).toLocaleDateString()} se {new Date(b.checkOut).toLocaleDateString()} tak - {b.guests} Guests
+              {new Date(b.checkIn).toLocaleDateString()} to {new Date(b.checkOut).toLocaleDateString()} - {b.guests} Guests
               <div style={{ marginTop: "8px", display: "flex", gap: "8px" }}>
-                {/* NAYA: Edit aur Delete buttons */}
                 <button onClick={() => startEdit(b)} style={{ background: "#f5a623", color: "white", border: "none", padding: "6px 14px", borderRadius: "5px", cursor: "pointer" }}>Edit ✏️</button>
                 <button onClick={() => handleDelete(b._id, b.fullName)} style={{ background: "#e74c3c", color: "white", border: "none", padding: "6px 14px", borderRadius: "5px", cursor: "pointer" }}>Delete 🗑️</button>
               </div>
